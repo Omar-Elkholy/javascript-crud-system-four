@@ -29,10 +29,12 @@ displayProducts();
 
 // Add
 function addProduct() {
-
-  validate();
-  addToLocal();
-  displayProducts();
+  if (validate()) {
+    addToList();
+    addToLocal();
+    displayProducts();
+    clearForm();
+  }
 }
 
 // Add To List 
@@ -49,7 +51,7 @@ function addToList() {
 // Validation
 
 function validate () {
-  let a = true;
+  var a = true;
   for (var i = 0; i < inputs.length; i++) {
     validateMsg[i].style.opacity = "0"
     if (inputs[i].value == "") {
@@ -57,10 +59,8 @@ function validate () {
       a = false;
     }
   }
-  if (a) {
-    addToList();
-    clearForm();
-  }
+  return a;
+
 }
 
 // Display
@@ -108,7 +108,7 @@ function clearProduct(x) {
 
 }
 
-// Update
+// Update Form
 function updateForm(_x) {
   x = _x;
   nameInp.value = productList[x].productName;
@@ -120,16 +120,21 @@ function updateForm(_x) {
   switchBtn("toUpdate");
 }
 
+// Update Product
 function updateProduct() {
 
-  productList[x].productName = nameInp.value;
-  productList[x].productCategory = categorInp.value;
-  productList[x].productDescription = descInp.value;
-  productList[x].productPrice = priceInp.value;
+  if(validate()) {
+    productList[x].productName = nameInp.value;
+    productList[x].productCategory = categorInp.value;
+    productList[x].productDescription = descInp.value;
+    productList[x].productPrice = priceInp.value;
+  
+    displayProducts();
+  
+    switchBtn("toAdd");
+  }
 
-  displayProducts();
 
-  switchBtn("toAdd");
 
 }
 
